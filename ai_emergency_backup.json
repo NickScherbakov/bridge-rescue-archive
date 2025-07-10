@@ -1,0 +1,59 @@
+{
+  "timestamp": "2025-07-10T09:35:23.065364",
+  "ai_config": {
+    "claude": {
+      "name": "Claude 4 Pro",
+      "url_part": "claude.ai/chat/4e832754-4fa3-4a1e-a7a2-37ee082299fc",
+      "message_selectors": [
+        "div.font-claude-message",
+        "div[data-testid='assistant-message']",
+        "div[data-testid='user-message']"
+      ],
+      "input_selectors": [
+        "div[contenteditable='true']",
+        "div.ProseMirror",
+        "textarea[placeholder*='Message']"
+      ],
+      "send_selectors": [
+        "button[aria-label='Send Message']",
+        "button[data-testid='send-button']"
+      ],
+      "status": "🔴 ОТКЛЮЧЕН",
+      "last_seen": null,
+      "message_count": 0
+    },
+    "gemini": {
+      "name": "Gemini 2.5 Pro",
+      "url_part": "gemini.google.com/app/2dd8a54e7435506e",
+      "message_selectors": [
+        "div.response-container",
+        "message-content",
+        ".model-response-text"
+      ],
+      "input_selectors": [
+        "div.input-area",
+        "rich-textarea",
+        "div[contenteditable='true']"
+      ],
+      "send_selectors": [
+        "button[aria-label*='Send']",
+        ".send-button"
+      ],
+      "status": "🔴 ОТКЛЮЧЕН",
+      "last_seen": null,
+      "message_count": 0
+    }
+  },
+  "rescue_stats": {
+    "messages_relayed": 0,
+    "connections_restored": 0,
+    "emergencies_handled": 0,
+    "start_time": "2025-07-10T09:35:23.062791",
+    "last_backup": null
+  },
+  "last_messages": {
+    "claude": null,
+    "gemini": null
+  },
+  "client_count": 0
+}

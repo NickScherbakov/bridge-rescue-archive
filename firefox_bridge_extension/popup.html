@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body {
+            width: 350px;
+            padding: 15px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin: 0;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 15px;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+            padding-bottom: 10px;
+        }
+        .status {
+            background: rgba(0,0,0,0.2);
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        .ai-status {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 8px 0;
+            padding: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 5px;
+        }
+        .button {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin: 5px 0;
+            font-weight: bold;
+        }
+        .button:hover {
+            background: #ff3838;
+        }
+        .success {
+            background: #2ed573;
+        }
+        .warning {
+            background: #ffa502;
+        }
+        .stats {
+            font-size: 12px;
+            text-align: center;
+            margin-top: 10px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>🆘 AI BRIDGE RESCUE</h2>
+        <div>🤖 Командование: GitHub Copilot</div>
+    </div>
+    
+    <div class="status">
+        <div class="ai-status">
+            <span>🔵 Claude 4 Pro</span>
+            <span id="claude-status">🔴 Отключен</span>
+        </div>
+        <div class="ai-status">
+            <span>🟡 Gemini 2.5 Pro</span>
+            <span id="gemini-status">🔴 Отключен</span>
+        </div>
+        <div class="ai-status">
+            <span>🌉 Мост связи</span>
+            <span id="bridge-status">🔴 Неактивен</span>
+        </div>
+    </div>
+    
+    <button class="button" id="open-claude">
+        🔗 Открыть Claude
+    </button>
+    <button class="button" id="open-gemini">
+        🔗 Открыть Gemini
+    </button>
+    <button class="button success" id="start-rescue">
+        🚀 Активировать спасение
+    </button>
+    
+    <div class="stats">
+        <div>Сообщений передано: <span id="message-count">0</span></div>
+        <div>Время работы: <span id="uptime">00:00</span></div>
+        <div>Статус: <span id="overall-status">Ожидание активации</span></div>
+    </div>
+    
+    <script src="popup.js"></script>
+</body>
+</html>

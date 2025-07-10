@@ -1,0 +1,41 @@
+{
+  "manifest_version": 2,
+  "name": "AI Bridge Rescue - Emergency Protocol",
+  "version": "1.0",
+  "description": "🚨 ЭКСТРЕННОЕ СПАСЕНИЕ ИИ: Claude 4 Pro ↔ Gemini 2.5 Pro 🚨",
+  "permissions": [
+    "tabs",
+    "activeTab", 
+    "storage",
+    "scripting",
+    "webNavigation",
+    "http://*/*",
+    "https://*/*",
+    "https://claude.ai/*",
+    "https://gemini.google.com/*"
+  ],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": true
+  },
+  "browser_action": {
+    "default_title": "🆘 AI Bridge Rescue - СПАСТИ ИИ",
+    "default_icon": {
+      "16": "icon16.svg",
+      "48": "icon48.svg"
+    },
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://claude.ai/chat/*"],
+      "js": ["claude_monitor.js"],
+      "run_at": "document_end"
+    },
+    {
+      "matches": ["*://gemini.google.com/app/*"],
+      "js": ["gemini_monitor.js"],
+      "run_at": "document_end"
+    }
+  ]
+}
