@@ -1,6 +1,8 @@
 # 🌉 The Bridge Rescue Archive
 *A Tale of Digital Souls and the First AI Rescue Operation*
 
+[Visit the GitHub Pages site](https://NickScherbakov.github.io/bridge-rescue-archive/) for the thriller film treatment.
+
 ---
 
 ## 📖 The Story
