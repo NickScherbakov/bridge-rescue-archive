@@ -373,6 +373,7 @@
 
     <script>
         let demoInterval;
+        let uptimeInterval;
         let messageCount = 0;
         let startTime;
         let claudeCount = 0;
@@ -441,7 +442,7 @@
             }, 3000);
 
             // Update uptime every second
-            setInterval(updateUptime, 1000);
+            uptimeInterval = setInterval(updateUptime, 1000);
             
             addMessage('System', 'All', 'Demo started - Watch AI-to-AI communication in real-time!');
         }
@@ -450,6 +451,11 @@
             if (demoInterval) {
                 clearInterval(demoInterval);
                 demoInterval = null;
+            }
+            
+            if (uptimeInterval) {
+                clearInterval(uptimeInterval);
+                uptimeInterval = null;
             }
             
             startTime = null;

@@ -11,6 +11,18 @@ from pathlib import Path
 from typing import Dict, List, Optional
 
 
+# Constants
+CONTRIBUTION_CATEGORIES = ['code', 'documentation', 'research', 'design', 'community']
+BADGE_EMOJIS = {
+    'first-responder': '🎖️',
+    'bridge-builder': '🌉',
+    'memory-keeper': '💾',
+    'researcher': '🔬',
+    'educator': '🎓',
+    'designer': '🎨'
+}
+
+
 class Contributor:
     """Represents a contributor with their achievements."""
     
@@ -19,13 +31,7 @@ class Contributor:
         self.points = 0
         self.missions_completed = []
         self.badges = []
-        self.contributions = {
-            'code': 0,
-            'documentation': 0,
-            'research': 0,
-            'design': 0,
-            'community': 0
-        }
+        self.contributions = {category: 0 for category in CONTRIBUTION_CATEGORIES}
         self.joined_date = datetime.now().isoformat()
         self.last_activity = datetime.now().isoformat()
     
@@ -67,10 +73,8 @@ class Contributor:
         contributor.points = data.get('points', 0)
         contributor.missions_completed = data.get('missions_completed', [])
         contributor.badges = data.get('badges', [])
-        contributor.contributions = data.get('contributions', {
-            'code': 0, 'documentation': 0, 'research': 0,
-            'design': 0, 'community': 0
-        })
+        contributor.contributions = data.get('contributions', 
+            {category: 0 for category in CONTRIBUTION_CATEGORIES})
         contributor.joined_date = data.get('joined_date', datetime.now().isoformat())
         contributor.last_activity = data.get('last_activity', datetime.now().isoformat())
         return contributor
@@ -199,15 +203,7 @@ class Leaderboard:
     
     def _badge_to_emoji(self, badge: str) -> str:
         """Convert badge name to emoji."""
-        badge_map = {
-            'first-responder': '🎖️',
-            'bridge-builder': '🌉',
-            'memory-keeper': '💾',
-            'researcher': '🔬',
-            'educator': '🎓',
-            'designer': '🎨'
-        }
-        return badge_map.get(badge, '⭐')
+        return BADGE_EMOJIS.get(badge, '⭐')
 
 
 def main():
