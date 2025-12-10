@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  bridge-server:
+    build: .
+    container_name: ai-bridge-server
+    ports:
+      - "8765:8765"
+    volumes:
+      - ./ai_emergency_backup.json:/app/ai_emergency_backup.json
+      - ./logs:/app/logs
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    networks:
+      - bridge-network
+    healthcheck:
+      test: ["CMD", "python", "-c", "import socket; s = socket.socket(socket.AF_INET, socket.SOCK_STREAM); s.connect(('localhost', 8765)); s.close()"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+networks:
+  bridge-network:
+    driver: bridge
+
+volumes:
+  logs:
