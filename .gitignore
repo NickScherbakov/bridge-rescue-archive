@@ -47,3 +47,28 @@ pids
 tmp/
 temp/
 rescue_env/
+
+# Playground build artifacts
+playground/dist/
+playground/build/
+playground/node_modules/
+playground/.cache/
+
+# Docker volumes
+logs/
+
+# Coverage reports
+htmlcov/
+.coverage
+coverage.xml
+*.cover
+
+# Test cache
+.pytest_cache/
+.tox/
+
+# Virtual environments
+env/
+venv/
+ENV/
+VENV/

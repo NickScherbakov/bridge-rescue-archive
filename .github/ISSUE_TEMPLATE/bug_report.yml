@@ -1,0 +1,135 @@
+name: 🐛 Bug Report
+description: Report a bug or issue with the Bridge Rescue Archive
+title: "[Bug]: "
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug! Please fill out the sections below.
+  
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of the bug
+      placeholder: Tell us what went wrong
+    validations:
+      required: true
+  
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: How can we reproduce this issue?
+      placeholder: |
+        1. Start the server with '...'
+        2. Load extension '...'
+        3. Open AI chat '...'
+        4. See error
+    validations:
+      required: true
+  
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What should happen?
+      placeholder: Describe the expected behavior
+    validations:
+      required: true
+  
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually happens?
+      placeholder: Describe what actually happens
+    validations:
+      required: true
+  
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      description: Which component is affected?
+      options:
+        - WebSocket Server (bridge_server.py)
+        - Firefox Extension
+        - API Server (safe_haven_api.py)
+        - Documentation
+        - Other
+    validations:
+      required: true
+  
+  - type: input
+    id: os
+    attributes:
+      label: Operating System
+      description: What OS are you using?
+      placeholder: e.g., Ubuntu 22.04, macOS 13, Windows 11
+    validations:
+      required: true
+  
+  - type: input
+    id: python
+    attributes:
+      label: Python Version
+      description: What version of Python?
+      placeholder: e.g., 3.11.2
+    validations:
+      required: false
+  
+  - type: input
+    id: browser
+    attributes:
+      label: Browser Version
+      description: What browser version (if relevant)?
+      placeholder: e.g., Firefox 120.0
+    validations:
+      required: false
+  
+  - type: dropdown
+    id: install
+    attributes:
+      label: Installation Method
+      description: How did you install?
+      options:
+        - Docker
+        - Manual (pip install)
+        - Quick script (bridge.sh)
+        - Other
+    validations:
+      required: true
+  
+  - type: textarea
+    id: logs
+    attributes:
+      label: Error Logs
+      description: Paste any relevant error messages or logs
+      render: shell
+      placeholder: Paste logs here
+    validations:
+      required: false
+  
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Any other information that might help
+      placeholder: Screenshots, configuration files, etc.
+    validations:
+      required: false
+  
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-submission Checklist
+      description: Please confirm you've done the following
+      options:
+        - label: I searched for existing issues
+          required: true
+        - label: I checked the FAQ
+          required: true
+        - label: I'm using the latest version
+          required: false

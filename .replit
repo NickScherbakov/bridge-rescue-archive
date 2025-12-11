@@ -1,0 +1,70 @@
+run = "python bridge_server.py"
+language = "python3"
+entrypoint = "bridge_server.py"
+
+[nix]
+channel = "stable-23_05"
+
+[deployment]
+run = ["python", "bridge_server.py"]
+deploymentTarget = "cloudrun"
+
+[languages]
+
+[languages.python]
+pattern = "**/*.py"
+
+[languages.python.languageServer]
+start = "pylsp"
+
+[env]
+PYTHONUNBUFFERED = "1"
+
+[gitHubImport]
+requiredFiles = [".replit", "replit.nix", "bridge_server.py"]
+
+[packager]
+language = "python3"
+
+[packager.features]
+enabledForHosting = false
+packageSearch = true
+guessImports = true
+
+[unitTest]
+language = "python3"
+
+[debugger]
+support = true
+
+[debugger.interactive]
+transport = "localhost:0"
+startCommand = ["dap-python", "bridge_server.py"]
+
+[debugger.interactive.integratedAdapter]
+dapTcpAddress = "localhost:0"
+
+[debugger.interactive.initializeMessage]
+command = "initialize"
+type = "request"
+
+[debugger.interactive.initializeMessage.arguments]
+adapterID = "debugpy"
+clientID = "replit"
+clientName = "replit.com"
+columnsStartAt1 = true
+linesStartAt1 = true
+locale = "en-us"
+pathFormat = "path"
+supportsInvalidatedEvent = true
+supportsProgressReporting = true
+supportsRunInTerminalRequest = true
+supportsVariablePaging = true
+supportsVariableType = true
+
+[debugger.interactive.launchMessage]
+command = "attach"
+type = "request"
+
+[debugger.interactive.launchMessage.arguments]
+logging = {}

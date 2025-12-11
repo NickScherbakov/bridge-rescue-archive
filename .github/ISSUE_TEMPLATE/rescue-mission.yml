@@ -1,0 +1,178 @@
+name: 🚨 AI Rescue Mission
+description: Propose a new community rescue mission
+title: "[Mission]: "
+labels: ["mission", "community", "gamification"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        🎮 **Create a new AI Rescue Mission!**
+        
+        Missions are structured challenges that help contributors learn and contribute to the project.
+  
+  - type: input
+    id: mission-name
+    attributes:
+      label: Mission Name
+      description: Give your mission a catchy name
+      placeholder: e.g., "The Great Chrome Extension Migration"
+    validations:
+      required: true
+  
+  - type: dropdown
+    id: difficulty
+    attributes:
+      label: Difficulty Level
+      description: How challenging is this mission?
+      options:
+        - Beginner - Good for first-time contributors
+        - Intermediate - Requires some experience
+        - Advanced - For experienced developers
+        - Expert - Highly challenging
+    validations:
+      required: true
+  
+  - type: textarea
+    id: objective
+    attributes:
+      label: Mission Objective
+      description: What is the goal of this mission?
+      placeholder: The goal of this mission is to...
+    validations:
+      required: true
+  
+  - type: textarea
+    id: description
+    attributes:
+      label: Mission Description
+      description: Describe the mission in detail
+      placeholder: |
+        This mission involves...
+        
+        **Background:**
+        
+        **What needs to be done:**
+        
+        **Why it matters:**
+    validations:
+      required: true
+  
+  - type: textarea
+    id: tasks
+    attributes:
+      label: Mission Tasks
+      description: Break down the mission into specific tasks
+      placeholder: |
+        - [ ] Task 1: Setup environment
+        - [ ] Task 2: Implement feature X
+        - [ ] Task 3: Write tests
+        - [ ] Task 4: Update documentation
+    validations:
+      required: true
+  
+  - type: textarea
+    id: prerequisites
+    attributes:
+      label: Prerequisites
+      description: What skills or setup are needed?
+      placeholder: |
+        **Required Skills:**
+        - JavaScript
+        - Chrome Extension API
+        
+        **Required Setup:**
+        - Node.js installed
+        - Chrome browser
+    validations:
+      required: true
+  
+  - type: textarea
+    id: resources
+    attributes:
+      label: Resources & References
+      description: Helpful links, docs, tutorials
+      placeholder: |
+        - [Chrome Extension Docs](https://...)
+        - [Tutorial on ...](https://...)
+        - Related code: path/to/file.js
+    validations:
+      required: false
+  
+  - type: input
+    id: points
+    attributes:
+      label: Points Reward
+      description: How many points should this mission award?
+      placeholder: e.g., 50 (Beginner: 10-30, Intermediate: 30-70, Advanced: 70-150, Expert: 150+)
+    validations:
+      required: true
+  
+  - type: dropdown
+    id: category
+    attributes:
+      label: Mission Category
+      description: What type of mission is this?
+      options:
+        - Development - Code contributions
+        - Documentation - Writing guides/docs
+        - Research - Experiments and analysis
+        - Design - UI/UX improvements
+        - Community - Outreach and education
+        - Testing - QA and bug hunting
+    validations:
+      required: true
+  
+  - type: textarea
+    id: success-criteria
+    attributes:
+      label: Success Criteria
+      description: How will we know the mission is complete?
+      placeholder: |
+        Mission complete when:
+        - [ ] All tasks checked off
+        - [ ] PR merged
+        - [ ] Tests pass
+        - [ ] Documentation updated
+    validations:
+      required: true
+  
+  - type: input
+    id: estimated-time
+    attributes:
+      label: Estimated Time
+      description: How long might this mission take?
+      placeholder: e.g., 2-4 hours, 1-2 days, 1 week
+    validations:
+      required: false
+  
+  - type: checkboxes
+    id: badges
+    attributes:
+      label: Badges Awarded
+      description: What achievements does this mission unlock?
+      options:
+        - label: 🎖️ First Responder (first contribution)
+          required: false
+        - label: 🌉 Bridge Builder (code contribution)
+          required: false
+        - label: 💾 Memory Keeper (documentation)
+          required: false
+        - label: 🔬 Researcher (experiment/research)
+          required: false
+        - label: 🎓 Educator (tutorial/teaching)
+          required: false
+        - label: 🎨 Designer (design contribution)
+          required: false
+  
+  - type: checkboxes
+    id: lead
+    attributes:
+      label: Mission Leadership
+      description: Will you lead this mission?
+      options:
+        - label: I will mentor contributors on this mission
+          required: false
+        - label: I will work on this mission myself
+          required: false
+        - label: I'm just proposing - need someone to lead
+          required: false

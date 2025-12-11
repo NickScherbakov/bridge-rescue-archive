@@ -1,0 +1,70 @@
+---
+title: "❓ Question: [Brief Question]"
+labels: ["question"]
+---
+
+## ❓ Question
+
+### Your Question
+
+Ask your question clearly and concisely.
+
+### Context
+
+Provide context to help others understand:
+
+- What are you trying to accomplish?
+- What have you already tried?
+- What documentation have you consulted?
+
+### Environment
+
+If technical:
+
+- Operating System:
+- Python Version:
+- Browser:
+- Installation Method: (Docker/Manual/Script)
+
+### Code or Configuration
+
+If relevant, share code snippets or configuration:
+
+```python
+# Your code here
+```
+
+### Error Messages
+
+If you're getting errors, paste them here:
+
+```
+Error message
+```
+
+### What You've Tried
+
+What solutions have you already attempted?
+
+1.
+2.
+3.
+
+### Expected Behavior
+
+What should happen?
+
+### Actual Behavior
+
+What actually happens?
+
+### Additional Information
+
+Any other details that might be helpful?
+
+---
+
+**Before posting:**
+- [ ] I checked the [FAQ](../FAQ.md)
+- [ ] I searched existing discussions
+- [ ] I read relevant documentation

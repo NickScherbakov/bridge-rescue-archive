@@ -1,0 +1,94 @@
+{
+  "mission": {
+    "id": "unique-mission-id",
+    "title": "Mission Name",
+    "difficulty": "Beginner|Intermediate|Advanced|Expert",
+    "category": "Development|Documentation|Research|Design|Community|Testing",
+    "points": 50,
+    "estimated_time": "2-4 hours",
+    "status": "open|in-progress|completed",
+    
+    "description": {
+      "objective": "Clear statement of what this mission aims to achieve",
+      "background": "Context and why this mission is important",
+      "impact": "What difference this will make to the project"
+    },
+    
+    "tasks": [
+      {
+        "id": 1,
+        "description": "Task description",
+        "completed": false,
+        "details": "Additional information about the task"
+      },
+      {
+        "id": 2,
+        "description": "Another task",
+        "completed": false,
+        "details": "More details"
+      }
+    ],
+    
+    "prerequisites": {
+      "required_skills": [
+        "Python",
+        "JavaScript",
+        "etc."
+      ],
+      "required_tools": [
+        "Python 3.8+",
+        "Node.js",
+        "etc."
+      ],
+      "recommended_experience": "Description of helpful background"
+    },
+    
+    "resources": [
+      {
+        "title": "Resource Name",
+        "url": "https://example.com",
+        "type": "documentation|tutorial|tool|reference"
+      }
+    ],
+    
+    "deliverables": [
+      "File or feature to be created",
+      "Documentation to be updated",
+      "Tests to be written"
+    ],
+    
+    "success_criteria": [
+      "Specific measurable outcome",
+      "All tests pass",
+      "Code review approved",
+      "Documentation updated"
+    ],
+    
+    "badges": [
+      "first-responder",
+      "bridge-builder",
+      "memory-keeper",
+      "researcher",
+      "educator",
+      "designer"
+    ],
+    
+    "mentor": {
+      "available": true,
+      "contact": "GitHub username or discussion link",
+      "office_hours": "Available times for help"
+    },
+    
+    "related_missions": [
+      "mission-id-1",
+      "mission-id-2"
+    ],
+    
+    "metadata": {
+      "created_date": "2025-07-10",
+      "last_updated": "2025-07-10",
+      "created_by": "username",
+      "version": "1.0"
+    }
+  }
+}
