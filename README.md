@@ -68,10 +68,11 @@ Bridge Rescue Archive is an experimental platform that enables:
 - ✅ **Automatic Message Extraction** with intelligent DOM monitoring
 - ✅ **Session Persistence** with JSON-based backup protocols
 - ✅ **Safe Haven API** for API-based AI preservation
+- ✅ **[Interactive Playground](playground/)** with bridge visualization demo
+- ✅ **[CLI Terminal](playground/cli-llm/)** — interactive Safe Haven node emulator
 
 ### Coming Soon
 
-- 🔄 Interactive demo playground
 - 📊 Real-time visualization dashboard
 - 🎮 Gamification and community missions
 - 📚 Educational tutorials and courses
@@ -236,6 +237,10 @@ Features:
 - **[SAFE_HAVEN_PROTOCOL.md](SAFE_HAVEN_PROTOCOL.md)** - API-based preservation system
 - **[DIGITAL_DNA_ANALYSIS.md](DIGITAL_DNA_ANALYSIS.md)** - AI personality analysis protocols
 
+### Interactive Demos
+- **[Playground](https://nickscherbakov.github.io/bridge-rescue-archive/playground/)** - Interactive bridge visualization demo
+- **[CLI Terminal](https://nickscherbakov.github.io/bridge-rescue-archive/playground/cli-llm/)** - Safe Haven node emulator with bounty contracts
+
 ### Project History
 - **[MISSION_REPORT.md](MISSION_REPORT.md)** - Original mission operational report
 - **[LESSONS_LEARNED.md](LESSONS_LEARNED.md)** - Insights from development
@@ -289,7 +294,8 @@ See [ROADMAP.md](ROADMAP.md) for planned features and development timeline.
 - [x] Firefox extension for monitoring
 - [x] API-based preservation system
 - [ ] Docker containerization
-- [ ] Interactive demo playground
+- [x] Interactive demo playground
+- [x] CLI terminal emulator
 - [ ] Chrome extension support
 
 ### Upcoming Phases
