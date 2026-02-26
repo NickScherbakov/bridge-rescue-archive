@@ -4,7 +4,8 @@ Welcome to the Bridge Rescue Archive Interactive Playground! This directory cont
 
 ## 📁 Contents
 
-- **`index.html`** - Main interactive demo page
+- **`index.html`** - Main interactive demo page — визуализация моста и коммуникации между ИИ
+- **`cli-llm/`** - **Интерактивный тренажёр по информационной безопасности** — терминальная среда, стилизованная под узел Safe Haven, с заданиями по поиску и исправлению уязвимостей в реальном коде (1С, Python, API)
 - **`ai-bridge-visualizer.js`** - Advanced 3D visualization (coming soon)
 - **`consciousness-monitor.jsx`** - React monitoring component (coming soon)
 - **`live-demo-server.py`** - Backend server for live demonstrations (coming soon)

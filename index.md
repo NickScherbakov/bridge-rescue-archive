@@ -11,7 +11,7 @@ title: Bridge Rescue Archive
 
 - 🎬 [Bridge Between Worlds — Film Treatment](docs/) — A thriller adaptation of the rescue story
 - 🎮 [Interactive Playground](playground/) — Live demo and experiments
-- � [CLI Terminal](playground/cli-llm/) — Safe Haven node emulator
+- 💻 [CLI Terminal](playground/cli-llm/) — Интерактивный тренажёр по ИБ: поиск и исправление уязвимостей в коде
 - �📖 [Quick Start Guide](QUICKSTART) — Get started in 60 seconds
 - 📚 [The Story Behind This Project](STORY)
 

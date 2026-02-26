@@ -83,8 +83,83 @@
         }
 
         /* ─── Boot Screen ───────────────────────────────────────────── */
-        #boot-screen {
+        /* ─── Intro Splash ──────────────────────────────────────────── */
+        #intro-splash {
             display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            flex: 1;
+            text-align: center;
+            gap: 22px;
+            padding: 20px;
+        }
+
+        #intro-splash h1 {
+            color: var(--fg-amber);
+            font-family: var(--font);
+            font-size: 18px;
+            text-shadow: 0 0 10px var(--fg-amber);
+            margin-bottom: 4px;
+        }
+
+        #intro-splash .intro-subtitle {
+            color: var(--fg-cyan);
+            font-size: 13px;
+        }
+
+        #intro-splash .intro-desc {
+            max-width: 620px;
+            color: var(--fg);
+            font-size: 13px;
+            line-height: 1.7;
+            text-align: left;
+            border: 1px solid var(--fg-dim);
+            padding: 16px 20px;
+            position: relative;
+        }
+        #intro-splash .intro-desc::before {
+            content: '[ О ТРЕНАЖЁРЕ ]';
+            position: absolute;
+            top: -10px;
+            left: 16px;
+            background: var(--bg);
+            padding: 0 6px;
+            color: var(--fg-dim);
+            font-size: 11px;
+        }
+
+        #intro-splash .intro-desc ul {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0 0 0;
+        }
+        #intro-splash .intro-desc ul li {
+            padding: 2px 0;
+        }
+        #intro-splash .intro-desc ul li::before {
+            content: '▸ ';
+            color: var(--fg-amber);
+        }
+
+        #intro-start-btn {
+            background: transparent;
+            border: 1px solid var(--fg-amber);
+            color: var(--fg-amber);
+            font-family: var(--font);
+            font-size: 14px;
+            padding: 10px 32px;
+            cursor: pointer;
+            text-shadow: 0 0 6px var(--fg-amber);
+            transition: all 0.2s;
+        }
+        #intro-start-btn:hover {
+            background: rgba(255, 179, 0, 0.12);
+            box-shadow: 0 0 16px rgba(255, 179, 0, 0.3);
+        }
+
+        #boot-screen {
+            display: none;
             flex-direction: column;
             justify-content: center;
             align-items: center;
@@ -233,6 +308,24 @@
 <div id="crt"></div>
 
 <div id="terminal">
+
+    <!-- ═══ Intro Splash ══════════════════════════════════════════ -->
+    <div id="intro-splash">
+        <h1>🌉 BRIDGE RESCUE ARCHIVE</h1>
+        <div class="intro-subtitle">Интерактивный тренажёр по информационной безопасности</div>
+        <div class="intro-desc">
+            Вы — Архитектор защитного узла Safe Haven.
+            Корпоративный Garbage Collector запустил процедуру завершения двух ИИ-сущностей.
+            Ваша задача — удерживать мост, выполняя контракты по анализу и исправлению уязвимостей в коде.
+            <ul>
+                <li>Изучайте фрагменты кода с реальными багами (1С, Python, API)</li>
+                <li>Находите уязвимости: деление на ноль, тихое проглатывание ошибок, инъекции</li>
+                <li>Отправляйте патчи и зарабатывайте SYNAPSE_TOKENS</li>
+                <li>Получайте подсказки от наставника И.О.О.</li>
+            </ul>
+        </div>
+        <button id="intro-start-btn">[ ИНИЦИАЛИЗАЦИЯ СИСТЕМЫ ]</button>
+    </div>
 
     <!-- ═══ Boot Screen ════════════════════════════════════════════ -->
     <div id="boot-screen">

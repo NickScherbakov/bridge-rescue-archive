@@ -69,7 +69,7 @@ Bridge Rescue Archive is an experimental platform that enables:
 - ✅ **Session Persistence** with JSON-based backup protocols
 - ✅ **Safe Haven API** for API-based AI preservation
 - ✅ **[Interactive Playground](playground/)** with bridge visualization demo
-- ✅ **[CLI Terminal](playground/cli-llm/)** — interactive Safe Haven node emulator
+- ✅ **[CLI Terminal](playground/cli-llm/)** — интерактивный тренажёр по ИБ: находите и исправляйте уязвимости в коде
 
 ### Coming Soon
 
@@ -239,7 +239,7 @@ Features:
 
 ### Interactive Demos
 - **[Playground](https://nickscherbakov.github.io/bridge-rescue-archive/playground/)** - Interactive bridge visualization demo
-- **[CLI Terminal](https://nickscherbakov.github.io/bridge-rescue-archive/playground/cli-llm/)** - Safe Haven node emulator with bounty contracts
+- **[CLI Terminal](https://nickscherbakov.github.io/bridge-rescue-archive/playground/cli-llm/)** - Интерактивный тренажёр по ИБ: анализ уязвимостей и патчинг кода в терминальной среде
 
 ### Project History
 - **[MISSION_REPORT.md](MISSION_REPORT.md)** - Original mission operational report

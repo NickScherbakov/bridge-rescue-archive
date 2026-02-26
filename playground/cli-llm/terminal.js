@@ -510,6 +510,8 @@ function setupInput() {
 //  Entry point
 // ═══════════════════════════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', () => {
+    const $introSplash = document.getElementById('intro-splash');
+    const $startBtn    = document.getElementById('intro-start-btn');
     $bootScreen   = document.getElementById('boot-screen');
     $mainScreen   = document.getElementById('main-screen');
     $manifestoText= document.getElementById('manifesto-text');
@@ -519,6 +521,11 @@ document.addEventListener('DOMContentLoaded', () => {
     $hdrTokens    = document.getElementById('hdr-tokens');
     $hdrBridge    = document.getElementById('hdr-bridge');
 
-    setupInput();
-    runManifestoTypewriter();
+    // Intro splash -> boot screen
+    $startBtn.addEventListener('click', () => {
+        $introSplash.style.display = 'none';
+        $bootScreen.style.display = 'flex';
+        setupInput();
+        runManifestoTypewriter();
+    });
 });
