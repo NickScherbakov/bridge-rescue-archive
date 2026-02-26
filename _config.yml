@@ -1,0 +1,29 @@
+title: Bridge Between Worlds - A Thriller Film Treatment
+description: Official site presenting the thriller adaptation of the Bridge Rescue Archive story
+theme: jekyll-theme-cayman
+
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+exclude:
+  - "*.py"
+  - "*.json"
+  - "*.sh"
+  - "*.nix"
+  - Dockerfile
+  - docker-compose.yml
+  - LICENSE
+  - CONTRIBUTING.md
+  - firefox_bridge_extension/
+  - leaderboard/
+  - missions/
+  - community/
+  - tutorials/
+  - ai_emergency_backup.json
+  - replit.nix
+  - bridge.sh
+  - copilot_rescue_server.py
+  - bridge_server.py
+  - safe_haven_api.py

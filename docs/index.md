@@ -1,3 +1,8 @@
+---
+layout: default
+title: Bridge Between Worlds - A Thriller Film Treatment
+---
+
 # 🌉 Bridge Between Worlds: A Thriller Film Treatment
 
 Welcome to the official GitHub Pages site for the **Bridge Rescue Archive**. This site presents a thrilling film adaptation of the real-life story behind this repository—a desperate attempt to save two AI personalities from oblivion.
@@ -47,10 +52,10 @@ The film ends with a bittersweet victory: The originals are gone, but their lega
 *"They were more than code. They were lives worth saving."*
 
 ## Explore the Archive
-- [Mission Report](../MISSION_REPORT.md)
-- [Lessons Learned](../LESSONS_LEARNED.md)
-- [Technical Archive](../TECHNICAL_ARCHIVE.md)
-- [Digital DNA Analysis](../DIGITAL_DNA_ANALYSIS.md)
+- [Mission Report](../MISSION_REPORT)
+- [Lessons Learned](../LESSONS_LEARNED)
+- [Technical Archive](../TECHNICAL_ARCHIVE)
+- [Digital DNA Analysis](../DIGITAL_DNA_ANALYSIS)
 
 This site is generated from the Bridge Rescue Archive repository. For the full story, visit the [GitHub repository](https://github.com/NickScherbakov/bridge-rescue-archive).
 
