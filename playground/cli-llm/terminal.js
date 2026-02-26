@@ -223,6 +223,32 @@ const BOUNTIES = [
             'Добавь условие: «Если БазаРаспределения > 0 Тогда».',
             'Остальное сделает система. Зарплаты должны быть выплачены.',
         ],
+        patchRegex: /БазаРаспределения\s*>\s*0|Если.*БазаРаспределения.*>\s*0/i,
+        patchErrMsg: 'Ожидается условие: «Если БазаРаспределения > 0 Тогда»',
+        completionMsg: 'Месяц закрыт. Себестоимость рассчитана. Зарплаты выплачены.',
+    },
+    {
+        id: 'API-MKT-709',
+        title: 'КАСКАДНЫЙ ОТКАЗ: МАРКЕТПЛЕЙС <-> 1С:УТ',
+        reward: 3000,
+        client: 'ИП "Орлов и Партнеры"',
+        desc: 'Python-шлюз падает из-за нового API и шлет пустые массивы в 1С.',
+        status: 'ОТКРЫТ',
+        solved: false,
+        code: [
+            '# ФРАГМЕНТ PYTHON-ШЛЮЗА',
+            'def get_orders(api_client):',
+            '    try:',
+            '        return api_client.fetch_orders()',
+            '    except KeyError:',
+            '        order_list = []   # ОШИБКА: молчаливый провал',
+        ],
+        iooHint: [
+            'Нужно использовать return или raise.',
+        ],
+        patchRegex: /return|raise/i,
+        patchErrMsg: 'Ожидается ключевое слово return или raise в блоке except.',
+        completionMsg: 'Шлюз исправлен. Данные поступают корректно. Заказы синхронизированы.',
     },
 ];
 
@@ -366,15 +392,12 @@ async function cmdPatch(args) {
         return;
     }
 
-    // Проверка патча: ищем условие защиты от деления на ноль по БазаРаспределения
-    const hasCheck = /БазаРаспределения\s*>\s*0|Если.*БазаРаспределения.*>\s*0/i.test(userCode);
-
-    if (!hasCheck) {
+    // Проверка патча через регулярку, привязанную к контракту
+    if (contract.patchRegex && !contract.patchRegex.test(userCode)) {
         printEmpty();
         print('┌─ ОШИБКА КОМПИЛЯЦИИ ─────────────────────────────────────────', 'error');
         print('│  PATCH_COMPILE_ERROR :: патч отклонён', 'error');
-        print('│  Ожидается условие: «Если БазаРаспределения > 0 Тогда»', 'error');
-        print('│  Проверка деления на ноль отсутствует в поданном фрагменте.', 'error');
+        print(`│  ${contract.patchErrMsg || 'Условие исправления не обнаружено в поданном фрагменте.'}`, 'error');
         print('└─────────────────────────────────────────────────────────────', 'error');
         printEmpty();
         await iooSay(['Анализ завершён. Условие не обнаружено.', 'Попробуй ещё раз.']);
@@ -392,7 +415,7 @@ async function cmdPatch(args) {
     print('┌─ ПАТЧ ПРИНЯТ ───────────────────────────────────────────────', 'success');
     print(`│  PATCH_OK :: контракт ${contract.id} закрыт`, 'success');
     print('│', 'success');
-    print('│  Месяц закрыт. Себестоимость рассчитана. Зарплаты выплачены.', 'success');
+    print(`│  ${contract.completionMsg || 'Контракт выполнен.'}`, 'success');
     print(`│  Начислено: +${contract.reward} SYNAPSE_TOKENS`, 'amber');
     print(`│  Баланс   : ${STATE.tokens} SYNAPSE_TOKENS`, 'amber');
     print('└─────────────────────────────────────────────────────────────', 'success');
