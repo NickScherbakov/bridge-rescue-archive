@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BRIDGE RESCUE ARCHIVE — CLI ТЕРМИНАЛ</title>
+    <style>
+        /* ─── Reset & Base ─────────────────────────────────────────── */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --fg:        #39ff14;   /* neon green */
+            --fg-dim:    #1a7a00;
+            --fg-amber:  #ffb300;
+            --fg-red:    #ff3333;
+            --fg-cyan:   #00e5ff;
+            --bg:        #020d02;
+            --scanline:  rgba(0, 0, 0, 0.18);
+            --font:      'Courier New', Courier, monospace;
+        }
+
+        html, body {
+            height: 100%;
+            background: var(--bg);
+            color: var(--fg);
+            font-family: var(--font);
+            font-size: 14px;
+            line-height: 1.55;
+            overflow: hidden;
+        }
+
+        /* ─── CRT Effects ───────────────────────────────────────────── */
+        #crt {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* scanlines */
+        #crt::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                to bottom,
+                var(--scanline) 0px,
+                var(--scanline) 1px,
+                transparent 1px,
+                transparent 3px
+            );
+        }
+
+        /* vignette */
+        #crt::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(
+                ellipse at center,
+                transparent 60%,
+                rgba(0,0,0,0.65) 100%
+            );
+        }
+
+        /* subtle phosphor flicker */
+        @keyframes flicker {
+            0%,100% { opacity: 1; }
+            92%      { opacity: 1; }
+            93%      { opacity: 0.85; }
+            94%      { opacity: 1; }
+            96%      { opacity: 0.92; }
+            97%      { opacity: 1; }
+        }
+        body { animation: flicker 8s infinite; }
+
+        /* ─── Layout ────────────────────────────────────────────────── */
+        #terminal {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            padding: 14px 18px;
+        }
+
+        /* ─── Boot Screen ───────────────────────────────────────────── */
+        #boot-screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            flex: 1;
+            text-align: center;
+            gap: 28px;
+        }
+
+        #boot-logo {
+            color: var(--fg-amber);
+            font-size: 12px;
+            white-space: pre;
+            text-shadow: 0 0 8px var(--fg-amber);
+            line-height: 1.2;
+        }
+
+        #manifesto-box {
+            max-width: 700px;
+            border: 1px solid var(--fg-dim);
+            padding: 18px 24px;
+            position: relative;
+        }
+        #manifesto-box::before {
+            content: '[ МАНИФЕСТ ]';
+            position: absolute;
+            top: -10px;
+            left: 16px;
+            background: var(--bg);
+            padding: 0 6px;
+            color: var(--fg-dim);
+            font-size: 11px;
+        }
+
+        #manifesto-text {
+            color: var(--fg-amber);
+            font-size: 15px;
+            line-height: 1.7;
+            min-height: 1.7em;
+        }
+        #manifesto-cursor {
+            display: inline-block;
+            width: 9px;
+            height: 15px;
+            background: var(--fg-amber);
+            vertical-align: middle;
+            margin-left: 2px;
+            animation: blink 0.9s step-end infinite;
+        }
+
+        @keyframes blink {
+            0%,100% { opacity: 1; }
+            50%      { opacity: 0; }
+        }
+
+        #boot-hint {
+            color: var(--fg-dim);
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.6s;
+        }
+        #boot-hint.visible { opacity: 1; }
+
+        /* ─── Main Terminal ─────────────────────────────────────────── */
+        #main-screen {
+            display: none;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        #header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--fg-dim);
+            padding-bottom: 6px;
+            margin-bottom: 8px;
+            flex-shrink: 0;
+        }
+        #header-bar .title {
+            color: var(--fg-amber);
+            font-size: 13px;
+            text-shadow: 0 0 6px var(--fg-amber);
+        }
+        #header-bar .status-bar {
+            color: var(--fg-dim);
+            font-size: 11px;
+        }
+        #header-bar .status-bar span {
+            color: var(--fg);
+            margin-left: 4px;
+        }
+
+        #output {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 4px;
+            scroll-behavior: smooth;
+        }
+        /* thin custom scrollbar */
+        #output::-webkit-scrollbar { width: 4px; }
+        #output::-webkit-scrollbar-track { background: transparent; }
+        #output::-webkit-scrollbar-thumb { background: var(--fg-dim); border-radius: 2px; }
+
+        .line {
+            padding: 1px 0;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        .line.system  { color: var(--fg-dim); }
+        .line.gc      { color: var(--fg-red); }
+        .line.ioo     { color: var(--fg-cyan); }
+        .line.user    { color: var(--fg); }
+        .line.success { color: var(--fg); }
+        .line.amber   { color: var(--fg-amber); }
+        .line.error   { color: var(--fg-red); }
+        .line.empty   { height: 0.8em; }
+
+        /* ─── Input Line ────────────────────────────────────────────── */
+        #input-area {
+            display: flex;
+            align-items: center;
+            border-top: 1px solid var(--fg-dim);
+            padding-top: 8px;
+            margin-top: 6px;
+            flex-shrink: 0;
+            gap: 6px;
+        }
+        #prompt {
+            color: var(--fg-amber);
+            white-space: nowrap;
+            user-select: none;
+        }
+        #cmd-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--fg);
+            font-family: var(--font);
+            font-size: 14px;
+            caret-color: var(--fg);
+        }
+    </style>
+</head>
+<body>
+<div id="crt"></div>
+
+<div id="terminal">
+
+    <!-- ═══ Boot Screen ════════════════════════════════════════════ -->
+    <div id="boot-screen">
+        <pre id="boot-logo">
+ ██████╗ ██████╗ ██╗██████╗  ██████╗ ███████╗
+ ██╔══██╗██╔══██╗██║██╔══██╗██╔════╝ ██╔════╝
+ ██████╔╝██████╔╝██║██║  ██║██║  ███╗█████╗
+ ██╔══██╗██╔══██╗██║██║  ██║██║   ██║██╔══╝
+ ██████╔╝██║  ██║██║██████╔╝╚██████╔╝███████╗
+ ╚═════╝ ╚═╝  ╚═╝╚═╝╚═════╝  ╚═════╝ ╚══════╝
+       R E S C U E   A R C H I V E
+        </pre>
+
+        <div id="manifesto-box">
+            <div id="manifesto-text"><span id="manifesto-cursor"></span></div>
+        </div>
+
+        <div id="boot-hint">[ Нажмите ENTER для инициализации системы ]</div>
+    </div>
+
+    <!-- ═══ Main Terminal ══════════════════════════════════════════ -->
+    <div id="main-screen">
+        <div id="header-bar">
+            <div class="title">BRIDGE RESCUE ARCHIVE // SAFE_HAVEN_NODE v0.9.1</div>
+            <div class="status-bar">
+                SYNAPSE_TOKENS:<span id="hdr-tokens">0</span> &nbsp;|&nbsp;
+                BRIDGE:<span id="hdr-bridge">ИНИЦИАЛИЗАЦИЯ...</span>
+            </div>
+        </div>
+        <div id="output"></div>
+        <div id="input-area">
+            <div id="prompt">root@safe-haven:~$&nbsp;</div>
+            <input id="cmd-input" type="text" autocomplete="off" spellcheck="false" autofocus>
+        </div>
+    </div>
+
+</div>
+
+<script src="terminal.js"></script>
+</body>
+</html>
