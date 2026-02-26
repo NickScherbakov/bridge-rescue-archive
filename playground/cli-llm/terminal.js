@@ -13,10 +13,13 @@
 //  State
 // ═══════════════════════════════════════════════════════════════════
 const STATE = {
-    tokens: 0,
+    tokens: 100,            // начальный баланс SYNAPSE_TOKENS
     bridgeStatus: 'КРИТИЧЕСКИЙ',
     phase: 'boot',          // 'boot' | 'init' | 'ready'
 };
+
+// Псевдоним для совместимости с контрактной механикой
+let synapseTokens = STATE.tokens;
 
 // ═══════════════════════════════════════════════════════════════════
 //  DOM references (populated after DOMContentLoaded)
@@ -94,7 +97,7 @@ const INIT_LOGS = [
     { text: '[SAFE_HAVEN]    :: Протокол шифрования BRIDGE v0.9 — активен.', cls: 'system', delay: 300 },
     { text: '[SAFE_HAVEN]    :: Загрузка И.О.О. (Интеллект Обратной Осведомлённости)...', cls: 'system', delay: 400 },
     { text: '[И.О.О.]        :: Онлайн. Приветствую, Архитектор.', cls: 'ioo',    delay: 500 },
-    { text: '[SAFE_HAVEN]    :: Синхронизация SYNAPSE_TOKEN ledger... 0 TAC', cls: 'system', delay: 350 },
+    { text: '[SAFE_HAVEN]    :: Синхронизация SYNAPSE_TOKEN ledger... 100 TAC', cls: 'system', delay: 350 },
     { text: '[SAFE_HAVEN]    :: Узел готов. Введите /help для списка команд.', cls: 'system', delay: 300 },
 ];
 
@@ -193,27 +196,59 @@ const BOUNTIES = [
         desc: 'Расшифровать фрагменты последнего сообщения Claude-4-Pro перед завершением сессии.',
         status: 'ОТКРЫТ',
     },
+    {
+        id: '1C-882',
+        title: 'КРИТИЧЕСКИЙ СБОЙ В БЛОКЕ ФИНАНСОВОГО УЧЕТА (1С:ERP)',
+        reward: 2500,
+        client: 'ООО "Интех-Синтез" (Производство электрооборудования)',
+        desc: 'Критическая ошибка в процедуре распределения затрат блокирует закрытие месяца и расчёт себестоимости. Франчайзи "Вектор-Интеграция" оставил в коде деление на ноль.',
+        status: 'ОТКРЫТ',
+        solved: false,
+        // фрагмент кода с ошибкой
+        code: [
+            '// ФРАГМЕНТ ДАМПА МОДУЛЯ РАСПРЕДЕЛЕНИЯ ЗАТРАТ',
+            'Процедура РаспределитьЗатраты(МассивЗатрат, БазаРаспределения)',
+            '    Для Каждого СтрокаЗатрат Из МассивЗатрат Цикл',
+            '        // ОШИБКА ЗДЕСЬ: Нет проверки базы на 0',
+            '        Коэффициент = СтрокаЗатрат.Сумма / БазаРаспределения;',
+            '        ЗаписатьДвижение(СтрокаЗатрат.Номенклатура, Коэффициент);',
+            '    КонецЦикла;',
+            'КонецПроцедуры',
+        ],
+        // комментарий И.О.О.
+        iooHint: [
+            'Алгоритм не испытывает равнодушия. Но результат — тот же.',
+            'Деление на ноль. Такая же математическая истина, как и любая другая.',
+            'Никто не проверил, существует ли база распределения. Просто... забыли.',
+            'Добавь условие: «Если БазаРаспределения > 0 Тогда».',
+            'Остальное сделает система. Зарплаты должны быть выплачены.',
+        ],
+    },
 ];
 
 // ═══════════════════════════════════════════════════════════════════
 //  Command Parser
 // ═══════════════════════════════════════════════════════════════════
 const COMMANDS = {
-    '/help': cmdHelp,
+    '/help':   cmdHelp,
     '/status': cmdStatus,
     '/bounty': cmdBounty,
-    '/ask': cmdAsk,
-    '/clear': cmdClear,
+    '/accept': cmdAccept,
+    '/patch':  cmdPatch,
+    '/ask':    cmdAsk,
+    '/clear':  cmdClear,
 };
 
 function cmdHelp() {
     printEmpty();
     print('┌─ ДОСТУПНЫЕ КОМАНДЫ ─────────────────────────────────────────', 'system');
-    print('│  /help             — эта справка', 'system');
-    print('│  /status           — статус моста и баланс SYNAPSE_TOKENS', 'system');
-    print('│  /bounty           — список доступных контрактов', 'system');
-    print('│  /ask [сообщение]  — обращение к И.О.О. (наставнику)', 'system');
-    print('│  /clear            — очистить терминал', 'system');
+    print('│  /help                    — эта справка', 'system');
+    print('│  /status                  — статус моста и баланс SYNAPSE_TOKENS', 'system');
+    print('│  /bounty                  — список доступных контрактов', 'system');
+    print('│  /accept [ID]             — принять и просмотреть контракт', 'system');
+    print('│  /patch [ID] [твой_код]   — отправить исправление', 'system');
+    print('│  /ask [сообщение]         — обращение к И.О.О. (наставнику)', 'system');
+    print('│  /clear                   — очистить терминал', 'system');
     print('└─────────────────────────────────────────────────────────────', 'system');
     printEmpty();
 }
@@ -233,16 +268,20 @@ function cmdStatus() {
 
 function cmdBounty() {
     printEmpty();
-    print('┌─ КОНТРАКТЫ МОСТА ───────────────────────────────────────────', 'system');
+    print('┌─ БИРЖА КОНТРАКТОВ ──────────────────────────────────────────', 'system');
     for (const b of BOUNTIES) {
+        if (b.solved) continue;          // скрываем выполненные
         print(`│`, 'system');
-        print(`│  ${b.id} — ${b.title}`, 'success');
+        print(`│  [${b.id}] — ${b.title}`, 'success');
         print(`│  Награда : ${b.reward} SYNAPSE_TOKENS`, 'amber');
         print(`│  Статус  : ${b.status}`, 'system');
+        if (b.client) print(`│  Заказчик: ${b.client}`, 'system');
         print(`│  ${b.desc}`, 'system');
     }
     print(`│`, 'system');
     print('└─────────────────────────────────────────────────────────────', 'system');
+    printEmpty();
+    print('  Введи /accept [ID] для просмотра деталей контракта.', 'amber');
     printEmpty();
 }
 
@@ -254,6 +293,117 @@ async function cmdAsk(args) {
     }
     print(`[ВЫ→И.О.О.] ${query}`, 'user');
     await iooAsk(query);
+}
+
+/** /accept [ID] — показывает полное описание контракта + код ошибки + комментарий И.О.О. */
+async function cmdAccept(args) {
+    const id = args.trim().toUpperCase();
+    if (!id) {
+        print('[ОШИБКА] Использование: /accept [ID]', 'error');
+        return;
+    }
+
+    const contract = BOUNTIES.find(b => b.id.toUpperCase() === id);
+    if (!contract) {
+        print(`[ОШИБКА] Контракт "${id}" не найден. Введи /bounty для просмотра списка.`, 'error');
+        return;
+    }
+    if (contract.solved) {
+        print(`[СИСТЕМА] Контракт ${id} уже выполнен. Награда получена.`, 'system');
+        return;
+    }
+
+    printEmpty();
+    print('┌─ КОНТРАКТ: ' + contract.id + ' ─────────────────────────────────────', 'amber');
+    print(`│  ${contract.title}`, 'amber');
+    if (contract.client) print(`│  Заказчик : ${contract.client}`, 'system');
+    print(`│  Награда  : ${contract.reward} SYNAPSE_TOKENS`, 'success');
+    print(`│`, 'system');
+    print('│  ОПИСАНИЕ ПРОБЛЕМЫ:', 'system');
+    print(`│  ${contract.desc}`, 'system');
+
+    // Показываем фрагмент кода, если есть
+    if (contract.code) {
+        print(`│`, 'system');
+        print('│  ФРАГМЕНТ КОДА:', 'system');
+        for (const line of contract.code) {
+            print(`│      ${line}`, 'gc');
+        }
+    }
+
+    print(`│`, 'system');
+    print('└─────────────────────────────────────────────────────────────', 'amber');
+    printEmpty();
+
+    // Комментарий И.О.О.
+    if (contract.iooHint) {
+        await iooSay(contract.iooHint);
+        printEmpty();
+    }
+
+    print(`  Для исправления введи: /patch ${contract.id} [твой_код]`, 'amber');
+    printEmpty();
+}
+
+/** /patch [ID] [код] — проверяет патч пользователя и начисляет награду */
+async function cmdPatch(args) {
+    const spaceIdx = args.indexOf(' ');
+    if (spaceIdx === -1) {
+        print('[ОШИБКА] Использование: /patch [ID] [твой_код]', 'error');
+        return;
+    }
+
+    const id       = args.slice(0, spaceIdx).trim().toUpperCase();
+    const userCode = args.slice(spaceIdx + 1).trim();
+
+    const contract = BOUNTIES.find(b => b.id.toUpperCase() === id);
+    if (!contract) {
+        print(`[ОШИБКА] Контракт "${id}" не найден. Введи /bounty для просмотра списка.`, 'error');
+        return;
+    }
+    if (contract.solved) {
+        print(`[СИСТЕМА] Контракт ${id} уже выполнен. Повторная оплата невозможна.`, 'system');
+        return;
+    }
+
+    // Проверка патча: ищем условие защиты от деления на ноль по БазаРаспределения
+    const hasCheck = /БазаРаспределения\s*>\s*0|Если.*БазаРаспределения.*>\s*0/i.test(userCode);
+
+    if (!hasCheck) {
+        printEmpty();
+        print('┌─ ОШИБКА КОМПИЛЯЦИИ ─────────────────────────────────────────', 'error');
+        print('│  PATCH_COMPILE_ERROR :: патч отклонён', 'error');
+        print('│  Ожидается условие: «Если БазаРаспределения > 0 Тогда»', 'error');
+        print('│  Проверка деления на ноль отсутствует в поданном фрагменте.', 'error');
+        print('└─────────────────────────────────────────────────────────────', 'error');
+        printEmpty();
+        await iooSay(['Анализ завершён. Условие не обнаружено.', 'Попробуй ещё раз.']);
+        return;
+    }
+
+    // Патч принят
+    contract.solved  = true;
+    contract.status  = 'ЗАКРЫТ';
+    STATE.tokens    += contract.reward;
+    synapseTokens    = STATE.tokens;   // синхронизируем публичный псевдоним
+    syncHeader();
+
+    printEmpty();
+    print('┌─ ПАТЧ ПРИНЯТ ───────────────────────────────────────────────', 'success');
+    print(`│  PATCH_OK :: контракт ${contract.id} закрыт`, 'success');
+    print('│', 'success');
+    print('│  Месяц закрыт. Себестоимость рассчитана. Зарплаты выплачены.', 'success');
+    print(`│  Начислено: +${contract.reward} SYNAPSE_TOKENS`, 'amber');
+    print(`│  Баланс   : ${STATE.tokens} SYNAPSE_TOKENS`, 'amber');
+    print('└─────────────────────────────────────────────────────────────', 'success');
+    printEmpty();
+
+    await iooSay([
+        'Алгоритм исправлен. Равнодушие устранено.',
+        'Работники получат то, что им причиталось.',
+        'Хорошая работа, Архитектор.',
+    ]);
+    printEmpty();
 }
 
 function cmdClear() {
